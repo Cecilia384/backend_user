@@ -3,13 +3,16 @@ package com.example.demo.entity;
 public class User {
     private String username;
     private String password;
+    private String birthday;
     public User() {
 
     }
 
+
     public User(String username, String password) {
         this.username = username;
         this.password = password;
+        this.birthday = birthday;
 
     }
     //toString方法
@@ -20,6 +23,7 @@ public class User {
         return "User{" +
                 "username='" + username + '\'' +
                 ", password='" + password + '\'' +
+                ", birthday='" + birthday + '\'' +
                 '}';
     }
 
@@ -38,4 +42,6 @@ public class User {
     public void setPassword(String password) {
         this.password = password;
     }
+    public String getBirthday() {return birthday;}
+    public void setBirthday(String birthday) {this.birthday = birthday;}
 }
