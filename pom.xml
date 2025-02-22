@@ -78,6 +78,12 @@
 			<artifactId>mybatis-plus-spring-boot3-starter</artifactId>
 			<version>3.5.7</version>
 		</dependency>
+<!--&lt;!&ndash;		3.5.9版本的MyBatisPlus需要新加个jsqlparser依赖&ndash;&gt;-->
+<!--		<dependency>-->
+<!--			<groupId>com.github.jsqlparser</groupId>-->
+<!--			<artifactId>jsqlparser</artifactId>-->
+<!--			<version>4.1</version>-->
+<!--		</dependency>-->
 <!--		mysql数据驱动-->
 		<dependency>
 			<groupId>mysql</groupId>

@@ -11,7 +11,7 @@ public class WebConfig implements WebMvcConfigurer {
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         //添加拦截器，作用范围是/user下的所有路径
-        registry.addInterceptor(new LoginInterceptor()).addPathPatterns("/user/**");
+       // registry.addInterceptor(new LoginInterceptor()).addPathPatterns("/user/**");
 
     }
 
