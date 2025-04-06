@@ -1,0 +1,27 @@
+spring:
+  application:
+    name: demo
+
+  devtools:
+    restart:
+      enabled: true
+      additional-paths: src/main/java
+      exclude: WEB-static/**
+
+  web:
+    resources:
+      static-locations: /upload/
+
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/curiosphere?useSSL=false&serverTimezone=Asia/Shanghai
+    username: root
+    password: 153153ea
+
+mybatis-plus:
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+
+server:
+  port: 8088

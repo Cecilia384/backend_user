@@ -29,4 +29,20 @@ public class UserVO {
     public String getEmail() {
         return email;
     }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
+    }
+
+    public void setBio(String bio) {
+        this.bio = bio;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
 }
