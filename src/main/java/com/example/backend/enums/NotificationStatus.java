@@ -1,4 +1,6 @@
 package com.example.backend.enums;
 
-public class NotificationStatus {
+public enum NotificationStatus {
+    UNREAD,     // 未读
+    READ        // 已读
 }
