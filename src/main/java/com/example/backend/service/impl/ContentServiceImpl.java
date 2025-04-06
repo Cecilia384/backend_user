@@ -1,12 +1,13 @@
 package com.example.backend.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.example.backend.dto.ContentDTO;
+import com.example.backend.dto.ContentSearchDTO;
 import com.example.backend.entity.Content;
 import com.example.backend.mapper.ContentMapper;
 import com.example.backend.service.ContentService;
 import com.example.backend.vo.ContentVO;
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -31,7 +32,7 @@ public class ContentServiceImpl implements ContentService {
         content.setBody(dto.getContent());
         content.setFormat(dto.getFormat().name());
         content.setTags(String.join(",", dto.getTags()));
-        content.setCategory(dto.getCategory()); // 设置分类
+        content.setCategory(dto.getCategory());
         content.setViews(0);
         content.setCreatedAt(LocalDateTime.now());
         content.setUpdatedAt(LocalDateTime.now());
@@ -40,7 +41,7 @@ public class ContentServiceImpl implements ContentService {
     }
 
     @Override
-    public void updateContent(Integer id, ContentDTO dto) { // 修改为Integer
+    public void updateContent(Integer id, ContentDTO dto) {
         Content content = contentMapper.selectById(id);
         if (content == null) {
             throw new RuntimeException("内容不存在");
@@ -50,14 +51,14 @@ public class ContentServiceImpl implements ContentService {
         content.setBody(dto.getContent());
         content.setFormat(dto.getFormat().name());
         content.setTags(String.join(",", dto.getTags()));
-        content.setCategory(dto.getCategory()); // 更新分类
+        content.setCategory(dto.getCategory());
         content.setUpdatedAt(LocalDateTime.now());
 
         contentMapper.updateById(content);
     }
 
     @Override
-    public void deleteContent(Integer id) { // 修改为Integer
+    public void deleteContent(Integer id) {
         int result = contentMapper.deleteById(id);
         if (result == 0) {
             throw new RuntimeException("删除失败，内容不存在");
@@ -76,7 +77,6 @@ public class ContentServiceImpl implements ContentService {
 
     @Override
     public List<ContentVO> listContents(String category, String tag, Integer page, Integer size) {
-        // 构建查询条件
         QueryWrapper<Content> queryWrapper = new QueryWrapper<>();
 
         if (category != null && !category.isEmpty()) {
@@ -87,17 +87,47 @@ public class ContentServiceImpl implements ContentService {
             queryWrapper.like("tags", tag);
         }
 
-        // 分页查询
         Page<Content> contentPage = new Page<>(page == null ? 1 : page, size == null ? 10 : size);
         Page<Content> resultPage = contentMapper.selectPage(contentPage, queryWrapper);
 
-        // 转换为VO
         return resultPage.getRecords().stream()
                 .map(this::convertToVO)
                 .collect(Collectors.toList());
     }
 
-    // 实体转VO方法
+    @Override
+    public List<ContentVO> searchContents(ContentSearchDTO searchDTO) {
+        QueryWrapper<Content> queryWrapper = new QueryWrapper<>();
+
+        if (searchDTO.getKeyword() != null && !searchDTO.getKeyword().isEmpty()) {
+            queryWrapper.like("title", searchDTO.getKeyword())
+                    .or()
+                    .like("body", searchDTO.getKeyword());
+        }
+
+        if (searchDTO.getCategory() != null && !searchDTO.getCategory().isEmpty()) {
+            queryWrapper.eq("category", searchDTO.getCategory());
+        }
+
+        if (searchDTO.getTags() != null && !searchDTO.getTags().isEmpty()) {
+            for (String tag : searchDTO.getTags()) {
+                queryWrapper.like("tags", tag);
+            }
+        }
+
+        if (searchDTO.getSortBy() != null && !searchDTO.getSortBy().isEmpty()) {
+            queryWrapper.orderBy(true, searchDTO.getIsAsc(), searchDTO.getSortBy());
+        }
+
+        Page<Content> contentPage = new Page<>(searchDTO.getPage() == null ? 1 : searchDTO.getPage(),
+                searchDTO.getSize() == null ? 10 : searchDTO.getSize());
+        Page<Content> resultPage = contentMapper.selectPage(contentPage, queryWrapper);
+
+        return resultPage.getRecords().stream()
+                .map(this::convertToVO)
+                .collect(Collectors.toList());
+    }
+
     private ContentVO convertToVO(Content content) {
         ContentVO vo = new ContentVO();
         vo.setId(content.getId());
@@ -105,20 +135,16 @@ public class ContentServiceImpl implements ContentService {
         vo.setTitle(content.getTitle());
         vo.setBody(content.getBody());
         vo.setFormat(content.getFormat());
-        vo.setTagsFromString(content.getTags()); // 转换标签
+        vo.setTagsFromString(content.getTags());
         vo.setCategory(content.getCategory());
         vo.setViews(content.getViews());
 
-        // 格式化时间
         if (content.getCreatedAt() != null) {
             vo.setCreatedAt(content.getCreatedAt().format(FORMATTER));
         }
         if (content.getUpdatedAt() != null) {
             vo.setUpdatedAt(content.getUpdatedAt().format(FORMATTER));
         }
-
-        // TODO: 关联查询作者信息
-        // vo.setAuthorName(getUsernameById(content.getUserId()));
 
         return vo;
     }

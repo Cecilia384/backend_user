@@ -1,6 +1,7 @@
 package com.example.backend.controller;
 
 import com.example.backend.dto.ContentDTO;
+import com.example.backend.dto.ContentSearchDTO;
 import com.example.backend.service.ContentService;
 import com.example.backend.vo.ContentVO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -61,6 +62,12 @@ public class ContentController {
             @RequestParam(required = false) Integer page,
             @RequestParam(required = false) Integer size) {
         List<ContentVO> contents = contentService.listContents(category, tag, page, size);
+        return ResponseEntity.ok(contents);
+    }
+
+    @PostMapping("/search")
+    public ResponseEntity<List<ContentVO>> search(@RequestBody ContentSearchDTO searchDTO) {
+        List<ContentVO> contents = contentService.searchContents(searchDTO);
         return ResponseEntity.ok(contents);
     }
 }
