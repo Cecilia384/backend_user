@@ -1,6 +1,6 @@
 package com.example.backend.controller;
 
-import com.example.backend.entity.Notification;
+import com.example.backend.dto.NotificationDTO; // 引入 DTO
 import com.example.backend.service.NotificationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -38,7 +38,8 @@ public class NotificationController {
      * 获取用户的所有通知
      */
     @GetMapping("/user/{userId}")
-    public List<Notification> getUserNotifications(@PathVariable Integer userId) {
+    public List<NotificationDTO> getUserNotifications(@PathVariable Integer userId) {
+        // 返回 DTO 列表
         return notificationService.getUserNotifications(userId);
     }
 }

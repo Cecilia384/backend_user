@@ -4,7 +4,9 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.example.backend.entity.Notification;
 import org.apache.ibatis.annotations.Mapper;
 
+/**
+ * NotificationMapper 接口，用于操作通知表
+ */
 @Mapper
 public interface NotificationMapper extends BaseMapper<Notification> {
-    // 可以添加自定义的查询方法
 }

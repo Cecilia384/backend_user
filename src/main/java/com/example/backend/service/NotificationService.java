@@ -1,22 +1,16 @@
 package com.example.backend.service;
 
-import com.example.backend.entity.Notification;
+import com.example.backend.dto.NotificationDTO; // 引入 DTO
 
 import java.util.List;
 
+/**
+ * NotificationService 接口
+ */
 public interface NotificationService {
-    /**
-     * 创建通知
-     */
     void createNotification(Integer userId, String message, String type);
 
-    /**
-     * 标记通知为已读
-     */
     void markAsRead(Integer notificationId);
 
-    /**
-     * 获取用户的所有通知
-     */
-    List<Notification> getUserNotifications(Integer userId);
+    List<NotificationDTO> getUserNotifications(Integer userId); // 返回 DTO
 }
