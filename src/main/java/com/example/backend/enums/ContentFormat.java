@@ -1,4 +1,5 @@
 package com.example.backend.enums;
 
-public class ContentFormat {
+public enum ContentFormat {
+    MARKDOWN, HTML
 }

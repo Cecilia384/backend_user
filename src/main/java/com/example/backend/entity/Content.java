@@ -22,4 +22,6 @@ public class Content {
     private Integer views;           // 浏览量
     private LocalDateTime createdAt; // 创建时间
     private LocalDateTime updatedAt; // 更新时间
+
+
 }
