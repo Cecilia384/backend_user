@@ -1,4 +1,4 @@
-package com.example.backend.vo;
+package com.example.backend.vo.admin;
 
 public class AdminUserVO {
     private String username;

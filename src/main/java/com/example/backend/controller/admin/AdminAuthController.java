@@ -3,9 +3,8 @@ package com.example.backend.controller.admin;
 import com.example.backend.dto.LoginDTO;
 import com.example.backend.service.UserService;
 import com.example.backend.service.RoleService;
-import com.example.backend.vo.AdminUserVO;
+import com.example.backend.vo.admin.AdminUserVO;
 import com.example.backend.entity.User;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import jakarta.validation.Valid;
